@@ -1,61 +1,32 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-  max-height: -webkit-fill-available;
-
-  form {
+  > main {
     display: flex;
-    gap: 1rem;
-    flex-direction: column;
-  }
-
-  .login {
-    padding: 1rem;
-    max-width: 450px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    > p {
-      color: ${(props) => props.theme.colors.white500};
-      margin: auto;
-    }
-    > section {
-      h1 {
-        font-size: 2.5rem;
-        line-height: 47px;
-      }
-      > p {
-        margin-top: 0.5rem;
-        font-size: 1rem;
-        color: ${(props) => props.theme.colors.white500};
-      }
-    }
-  }
-
-  .sign-with-google {
-    background: #fff;
-    border-radius: 10px;
-    padding: 1rem 1rem;
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 1rem;
-    cursor: pointer;
-    transition: filter 0.5s;
-    img {
-      height: 20px;
-      width: 20px;
-    }
-    > p {
-      color: rgba(0, 0, 0, 0.54);
-    }
-    &:hover {
-      filter: brightness(0.8);
+    height: 100vh;
+    max-height: -webkit-fill-available;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 600px;
+      h2 {
+        margin-top: -10px;
+      }
+      p {
+        margin-top: -5px;
+
+        text-align: center;
+        max-width: 300px;
+      }
+      button {
+        margin-top: 5rem;
+        min-width: 300px;
+      }
     }
   }
 

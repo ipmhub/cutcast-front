@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import GradientButton from "../../Components/GradientButton";
-import TextInput from "../../Components/TextInput";
-import { Container } from "../../styles/page-styles/styles";
 import { motion } from "framer-motion";
-import { useAuth } from "../../Hook/useAuth";
-import Main from "../../Components/Main";
-import { withPublic } from "../../Hook/routes";
-function Login() {
-  const { user } = useAuth();
-  const { signInWithGoogle, signInWithEmail } = useAuth();
+import Link from "next/link";
+import React from "react";
+import GradientButton from "../Components/GradientButton";
+import Main from "../Components/Main";
+import { Container } from "../styles/page-styles/404";
 
-  const [emailInput, setEmailInput] = useState<string>();
-
+export default function Error() {
   return (
     <Container>
       <motion.div
@@ -89,44 +83,15 @@ function Login() {
         }}
       />
       <Main>
-        <section className="login">
-          <section>
-            <h1>Entre e junte-se a nós</h1>
-            <p>
-              Otimize seu tempo e foque no que é importante. Cutcast é a
-              ferramenta certa para voce
-            </p>
-          </section>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              console.log("Email sent");
-              if (emailInput) {
-                signInWithEmail(emailInput);
-              }
-            }}
-          >
-            <TextInput
-              name="email"
-              type="email"
-              placeholder="ex: fulano@exemplo.com"
-              label="Entre com o email"
-              autoFocus
-              onChange={(e: any) => {
-                setEmailInput(e.target.value);
-              }}
-            />
-            <GradientButton type="submit">Entrar</GradientButton>
-          </form>
-          <p>ou</p>
-          <div className="sign-with-google" onClick={signInWithGoogle}>
-            <img src="/icons/googlelogo.svg" alt="Google logo" />
-            <p>Continue com o google</p>
-          </div>
-        </section>
+        <div>
+          <h1>{"<404/>"}</h1>
+          <h2>um erro ocorreu</h2>
+          <p>mas não se desespere, clique nesse botão bonito para voltar </p>
+          <Link href="/">
+            <GradientButton>Quero voltar!</GradientButton>
+          </Link>
+        </div>
       </Main>
     </Container>
   );
 }
-
-export default withPublic(Login);
