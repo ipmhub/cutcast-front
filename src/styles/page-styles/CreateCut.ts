@@ -1,12 +1,17 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  main {
-    max-width: 1472px;
-    padding: 0.8rem 2rem;
-    margin: 0 auto;
-  }
+ 
 
+ form{
+   margin-top: 6rem;
+   overflow-x: hidden;
+   label{
+    white-space: nowrap;
+   }
+
+ }
+  
   .youtube-link-container {
     margin: 0.5rem 0;
     width: 100%;
@@ -43,6 +48,8 @@ export const Container = styled.div`
 
   .cut {
       margin-top: 1.5rem;
+      animation-duration: 1s;
+    animation-name: slidein;
     > div {
         margin-top: 0.5rem;
       background-color: ${(props) => props.theme.colors.secondary_background};
@@ -79,11 +86,18 @@ export const Container = styled.div`
     }
   }
 
+  @keyframes slidein {
+    from {
+      margin-left: 90vw;
+    }
+
+    to {
+      margin-left: 0px;
+    }
+  }
+
   @media (max-width: 768px) {
-      main{
-    padding: 0.8rem 1rem;
-          
-      }
+      
     .cut {
       > div {
         flex-direction: column;
