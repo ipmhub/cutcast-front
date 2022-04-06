@@ -19,7 +19,7 @@ export function useOrdinal(opt: number) {
     case 9:
       return "Nono";
     case 10:
-      return "Sétimo";
+      return "Décimo";
     default:
       return "";
   }

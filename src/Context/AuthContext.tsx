@@ -5,6 +5,7 @@ import {
   signInWithPopup,
   sendSignInLinkToEmail,
 } from "firebase/auth";
+import router from "next/router";
 import { useEffect, useState } from "react";
 import { ReactNode } from "react";
 import { createContext } from "react";
@@ -21,10 +22,6 @@ type User = {
   isLoggedIn: boolean;
 };
 
-type UserSignUp = {
-  email: string;
-};
-
 type AuthContextProviderType = {
   children: ReactNode;
 };
@@ -32,8 +29,8 @@ type AuthContextProviderType = {
 type AuthContextType = {
   user: User | undefined;
   signInWithGoogle: () => Promise<void>;
-  //   signOut: () => Promise<void>;
-  signInWithEmail: (email: UserSignUp) => Promise<void | string>;
+  signOut: () => Promise<void>;
+  signInWithEmail: (email: string) => Promise<void | string>;
   //   deleteUser: () => void;
 };
 
@@ -49,8 +46,8 @@ export function AuthContextProvider(props: AuthContextProviderType) {
 
       setUser({
         name: (requestResult.user?.displayName as string) || "",
-        email: requestResult.user?.email,
-        avatarUrl: requestResult.user?.photoURL,
+        email: requestResult.user?.email || "protected",
+        avatarUrl: requestResult.user?.photoURL || "",
         idToken: (await auth.currentUser?.getIdToken()) as string,
         uid: requestResult.user?.uid as string,
         isLoggedIn: true,
@@ -58,10 +55,9 @@ export function AuthContextProvider(props: AuthContextProviderType) {
       console.log(user);
     } catch (err) {
       console.error(err);
-      alert(err.message);
     }
   }
-  async function signInWithEmail({ email }: UserSignUp) {
+  async function signInWithEmail(email: string) {
     var actionCodeSettings = {
       url: "http://localhost:3000/login",
       handleCodeInApp: true,
@@ -73,13 +69,24 @@ export function AuthContextProvider(props: AuthContextProviderType) {
         installApp: true,
         minimumVersion: "12",
       },
-      dynamicLinkDomain: "http://localhost:3000/login",
+      dynamicLinkDomain: "com.autocustcast",
     };
     sendSignInLinkToEmail(auth, email, actionCodeSettings).then(() => {
       window.localStorage.setItem("emailForSignIn", email);
     });
   }
 
+  async function signOut() {
+    auth
+      .signOut()
+      .then(() => {
+        router.push("/login");
+        setUser(undefined);
+      })
+      .catch((error) => {
+        throw new Error("Signout error");
+      });
+  }
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (userstate) => {
       if (userstate) {
@@ -106,7 +113,9 @@ export function AuthContextProvider(props: AuthContextProviderType) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signInWithGoogle, user, signInWithEmail }}>
+    <AuthContext.Provider
+      value={{ signInWithGoogle, user, signInWithEmail, signOut }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

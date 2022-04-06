@@ -89,10 +89,14 @@ h2{
 
 }
 h3{
+  font-weight: 400;
+
   font-size: 1.25rem;
 
 }
 h4{
+  font-weight: 400;
+
   font-size: 1.125rem;
 
 }

@@ -5,9 +5,9 @@ import { withProtected } from "../../Hook/routes";
 import { Container } from "../../styles/page-styles/CreateCut";
 import { IoLinkSharp, IoAddSharp } from "react-icons/io5";
 import { useTheme } from "styled-components";
-import { v4 as uuidv4 } from "uuid";
 import { useOrdinal } from "../../Hook/useOrdinal";
 import GradientButton from "../../Components/GradientButton";
+import Main from "../../Components/Main";
 
 function cut() {
   const theme: any = useTheme();
@@ -16,7 +16,7 @@ function cut() {
   return (
     <Container>
       <Header />
-      <main>
+      <Main>
         <form>
           <h1>Crie seus cortes</h1>
           <div className="youtube-link-container">
@@ -82,9 +82,15 @@ function cut() {
           <div className="container-buttons">
             <IoAddSharp
               onClick={() => {
-                setCutLength([...cutLength, cutLength.length + 1]);
+                if (cutLength.length < 10) {
+                  setCutLength([...cutLength, cutLength.length + 1]);
+                }
               }}
-              style={{ cursor: "pointer" }}
+              style={
+                cutLength.length < 10
+                  ? { cursor: "pointer" }
+                  : { cursor: "not-allowed" }
+              }
               size="30"
               color={theme?.colors.pink || "#F25690"}
             >
@@ -93,7 +99,7 @@ function cut() {
             <GradientButton>Confirmar</GradientButton>
           </div>
         </form>
-      </main>
+      </Main>
     </Container>
   );
 }
