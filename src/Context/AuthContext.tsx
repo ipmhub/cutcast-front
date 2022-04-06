@@ -21,10 +21,6 @@ type User = {
   isLoggedIn: boolean;
 };
 
-type UserSignUp = {
-  email: string;
-};
-
 type AuthContextProviderType = {
   children: ReactNode;
 };
@@ -33,7 +29,7 @@ type AuthContextType = {
   user: User | undefined;
   signInWithGoogle: () => Promise<void>;
   //   signOut: () => Promise<void>;
-  signInWithEmail: (email: UserSignUp) => Promise<void | string>;
+  signInWithEmail: (email: string) => Promise<void | string>;
   //   deleteUser: () => void;
 };
 
@@ -49,8 +45,8 @@ export function AuthContextProvider(props: AuthContextProviderType) {
 
       setUser({
         name: (requestResult.user?.displayName as string) || "",
-        email: requestResult.user?.email,
-        avatarUrl: requestResult.user?.photoURL,
+        email: requestResult.user?.email || "protected",
+        avatarUrl: requestResult.user?.photoURL || "",
         idToken: (await auth.currentUser?.getIdToken()) as string,
         uid: requestResult.user?.uid as string,
         isLoggedIn: true,
@@ -58,10 +54,9 @@ export function AuthContextProvider(props: AuthContextProviderType) {
       console.log(user);
     } catch (err) {
       console.error(err);
-      alert(err.message);
     }
   }
-  async function signInWithEmail({ email }: UserSignUp) {
+  async function signInWithEmail(email: string) {
     var actionCodeSettings = {
       url: "http://localhost:3000/login",
       handleCodeInApp: true,
