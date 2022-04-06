@@ -4,6 +4,8 @@ import {
   signOut,
   signInWithPopup,
   sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
 } from "firebase/auth";
 import router from "next/router";
 import { useEffect, useState } from "react";
@@ -58,17 +60,14 @@ export function AuthContextProvider(props: AuthContextProviderType) {
   }
   async function signInWithEmail(email: string) {
     var actionCodeSettings = {
-      url: "http://localhost:3000/login",
+      url: window.location.origin,
       handleCodeInApp: true,
       iOS: {
         bundleId: "com.example.ios",
       },
       android: {
         packageName: "com.example.android",
-        installApp: true,
-        minimumVersion: "12",
       },
-      dynamicLinkDomain: "com.autocustcast",
     };
     sendSignInLinkToEmail(auth, email, actionCodeSettings).then(() => {
       window.localStorage.setItem("emailForSignIn", email);
@@ -79,14 +78,34 @@ export function AuthContextProvider(props: AuthContextProviderType) {
     auth
       .signOut()
       .then(() => {
+        setUser({ email: "", isLoggedIn: false });
         router.push("/login");
-        setUser(undefined);
       })
       .catch((error) => {
         throw new Error("Signout error");
       });
   }
   useEffect(() => {
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      var email = window.localStorage.getItem("emailForSignIn");
+      if (!email) {
+        email = window.prompt("Please provide your email for confirmation");
+      } else {
+        signInWithEmailLink(auth, email, window.location.href)
+          .then(async (result) => {
+            setUser({
+              name: (result.user.displayName as string) || "",
+              email: (result.user.email as string) || "",
+              avatarUrl: (result.user.photoURL as string) || "",
+              idToken: (await auth.currentUser?.getIdToken()) as string,
+              uid: (result.user.uid as string) || "",
+              isLoggedIn: true,
+            });
+            window.localStorage.removeItem("emailForSignIn");
+          })
+          .catch((error) => {});
+      }
+    }
     const unsubscribe = auth.onAuthStateChanged(async (userstate) => {
       if (userstate) {
         setUser({
