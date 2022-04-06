@@ -5,6 +5,6 @@ type MainProps = {
   children: ReactNode;
 };
 
-export default function Main({ children }: MainProps) {
-  return <Container>{children}</Container>;
+export default function Main({ children, ...rest }: MainProps) {
+  return <Container {...rest}>{children}</Container>;
 }
