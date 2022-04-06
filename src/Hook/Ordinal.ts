@@ -1,4 +1,4 @@
-export function useOrdinal(opt: number) {
+export function Ordinal(opt: number) {
   switch (opt) {
     case 1:
       return "Primeiro";

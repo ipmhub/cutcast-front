@@ -5,11 +5,11 @@ import { withProtected } from "../../Hook/routes";
 import { Container } from "../../styles/page-styles/CreateCut";
 import { IoLinkSharp, IoAddSharp } from "react-icons/io5";
 import { useTheme } from "styled-components";
-import { useOrdinal } from "../../Hook/useOrdinal";
+import { Ordinal } from "../../Hook/Ordinal";
 import GradientButton from "../../Components/GradientButton";
 import Main from "../../Components/Main";
 
-function cut() {
+function Cut() {
   const theme: any = useTheme();
 
   const [cutLength, setCutLength] = useState<Array<number>>([1]);
@@ -28,8 +28,8 @@ function cut() {
           </div>
 
           {cutLength.map((cut) => (
-            <section className="cut">
-              <h2>{useOrdinal(cut)} Corte</h2>
+            <section className="cut" key={cut}>
+              <h2>{Ordinal(cut)} Corte</h2>
 
               <div>
                 <section>
@@ -104,4 +104,4 @@ function cut() {
   );
 }
 
-export default withProtected(cut);
+export default withProtected(Cut);

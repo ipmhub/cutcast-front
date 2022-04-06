@@ -52,7 +52,6 @@ export function AuthContextProvider(props: AuthContextProviderType) {
         uid: requestResult.user?.uid as string,
         isLoggedIn: true,
       });
-      console.log(user);
     } catch (err) {
       console.error(err);
     }
@@ -99,7 +98,6 @@ export function AuthContextProvider(props: AuthContextProviderType) {
           isLoggedIn: true,
         });
       } else {
-        console.log("user desconectado");
         setUser({
           email: "",
           isLoggedIn: false,

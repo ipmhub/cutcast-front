@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { Container } from "./styles";
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -6,12 +6,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   textarea?: boolean | false;
 }
 
-export default function TextInput({
-  name,
-  label,
-  textarea,
-  ...rest
-}: InputProps) {
+export default function TextInput({ name, label, textarea, ...rest }: any) {
   return (
     <Container>
       <label htmlFor={name}>{label}</label>
