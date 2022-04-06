@@ -34,8 +34,11 @@ export function withPublic(Component: any) {
     if (user && user.isLoggedIn === true) {
       router.push(`/`);
       return <Loading />;
+    } else if (!user) {
+      return <Loading />;
+    } else {
+      return <Component {...props} />;
     }
-    return <Component {...props} />;
     // return <LoadingScreen />;
   };
 }
