@@ -73,6 +73,7 @@ scroll-behavior: smooth;
   body, input, textarea , button {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
+    font-size: 16px;
   }
   h1, h2, h3, h4, h5, h6, strong {
     color: ${(props) => props.theme.colors.text};

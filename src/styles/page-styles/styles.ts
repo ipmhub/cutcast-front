@@ -7,6 +7,7 @@ export const Container = styled.div`
   height: 100vh;
   overflow: hidden;
   position: relative;
+  max-height: -webkit-fill-available;
 
   form {
     display: flex;
