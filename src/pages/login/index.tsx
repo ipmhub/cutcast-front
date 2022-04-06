@@ -5,8 +5,8 @@ import { Container } from "../../styles/page-styles/styles";
 import { motion } from "framer-motion";
 import { useAuth } from "../../Hook/useAuth";
 import Main from "../../Components/Main";
-
-export default function Login() {
+import { withPublic } from "../../Hook/routes";
+function Login() {
   const { user } = useAuth();
   const { signInWithGoogle, signInWithEmail } = useAuth();
 
@@ -67,3 +67,5 @@ export default function Login() {
     </Container>
   );
 }
+
+export default withPublic(Login);

@@ -24,3 +24,16 @@ export function withProtected(Component: any) {
     // return <LoadingScreen />;
   };
 }
+
+export function withPublic(Component: any) {
+  return function WithPublic(props: any) {
+    const { user } = useAuth();
+    const router = useRouter();
+    if (user) {
+      router.push(`/`);
+      return <Loading />;
+    }
+    return <Component {...props} />;
+    // return <LoadingScreen />;
+  };
+}

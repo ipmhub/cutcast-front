@@ -5,6 +5,7 @@ import {
   signInWithPopup,
   sendSignInLinkToEmail,
 } from "firebase/auth";
+import router from "next/router";
 import { useEffect, useState } from "react";
 import { ReactNode } from "react";
 import { createContext } from "react";
@@ -28,7 +29,7 @@ type AuthContextProviderType = {
 type AuthContextType = {
   user: User | undefined;
   signInWithGoogle: () => Promise<void>;
-  //   signOut: () => Promise<void>;
+  signOut: () => Promise<void>;
   signInWithEmail: (email: string) => Promise<void | string>;
   //   deleteUser: () => void;
 };
@@ -68,13 +69,24 @@ export function AuthContextProvider(props: AuthContextProviderType) {
         installApp: true,
         minimumVersion: "12",
       },
-      dynamicLinkDomain: "http://localhost:3000/login",
+      dynamicLinkDomain: "com.autocustcast",
     };
     sendSignInLinkToEmail(auth, email, actionCodeSettings).then(() => {
       window.localStorage.setItem("emailForSignIn", email);
     });
   }
 
+  async function signOut() {
+    auth
+      .signOut()
+      .then(() => {
+        router.push("/login");
+        setUser(undefined);
+      })
+      .catch((error) => {
+        throw new Error("Signout error");
+      });
+  }
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (userstate) => {
       if (userstate) {
@@ -101,7 +113,9 @@ export function AuthContextProvider(props: AuthContextProviderType) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signInWithGoogle, user, signInWithEmail }}>
+    <AuthContext.Provider
+      value={{ signInWithGoogle, user, signInWithEmail, signOut }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

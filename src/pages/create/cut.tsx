@@ -82,9 +82,15 @@ function cut() {
           <div className="container-buttons">
             <IoAddSharp
               onClick={() => {
-                setCutLength([...cutLength, cutLength.length + 1]);
+                if (cutLength.length < 10) {
+                  setCutLength([...cutLength, cutLength.length + 1]);
+                }
               }}
-              style={{ cursor: "pointer" }}
+              style={
+                cutLength.length < 10
+                  ? { cursor: "pointer" }
+                  : { cursor: "not-allowed" }
+              }
               size="30"
               color={theme?.colors.pink || "#F25690"}
             >
